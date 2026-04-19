@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["flutter", "nodejs"]
+
+[phases.build]
+cmds = [
+  "flutter pub get",
+  "flutter build web --release"
+]
+
+[start]
+cmd = "serve -s build/web -l $PORT"
