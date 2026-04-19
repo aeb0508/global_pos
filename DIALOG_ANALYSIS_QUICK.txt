@@ -1,0 +1,129 @@
+# Dialog Analysis - Quick Reference
+
+## Summary Statistics
+- **Total Dialogs:** 36
+- **Screen Coverage:** 15 screens analyzed (5 with no dialogs)
+- **Form Dialogs:** 17 (47%)
+- **Info/Selection:** 9 (25%)
+- **Confirmations:** 10 (28%)
+
+## By Priority Level
+
+### Priority 1 (HIGH) - Form Dialogs - 17 dialogs
+```
+1. categories_screen.dart:116 - AddCategory/EditCategory
+2. currency_management_screen.dart:70 - AddCurrency/EditCurrency
+3. customers_screen.dart:144 - AddCustomer/EditCustomer
+4. gift_cards_screen.dart:49 - IssueGiftCard
+5. layaway_screen.dart:71 - CreateLayaway
+6. loyalty_program_screen.dart:177 - EditLoyaltyProgram
+7. loyalty_program_screen.dart:190 - AddPoints
+8. multi_store_screen.dart:298 - AddStore/EditStore
+9. multi_store_screen.dart:312 - InventoryManagement
+10. multi_store_screen.dart:327 - StockTransfer
+11. payment_gateway_screen.dart:490 - ConfigureGateway
+12. payment_gateway_screen.dart:706 - ProcessRefund
+13. price_management_screen.dart:726 - UpdatePrice
+14. refund_management_screen.dart:104 - ProcessRefund
+15. refund_management_screen.dart:116 - EditRefund
+16. stock_management_screen.dart:91 - AdjustStock
+17. suppliers_screen.dart:84 - AddSupplier/EditSupplier
+18. tax_management_screen.dart:142 - AddTaxRate/EditTaxRate
+19. users_screen.dart:106 - AddUser/EditUser
+```
+
+### Priority 2 (MEDIUM) - Info/Selection/Confirmation - 19 dialogs
+```
+1. gift_cards_screen.dart:61 - CheckGiftCardBalance (selection)
+2. gift_cards_screen.dart:90 - GiftCardBalance (info)
+3. mobile_home_screen.dart:154 - ServerURL (selection)
+4. orders_screen.dart:324 - OrderDetails (info)
+5. payment_gateway_screen.dart:615 - TestGateway (info)
+6. payment_gateway_screen.dart:650 - TransactionDetails (info)
+7. pending_orders_screen.dart:232 - OrderDetails (info)
+8. layaway_screen.dart:59 - LayawayDetail (info)
+
+--- CONFIRMATIONS ---
+9. categories_screen.dart:240 - DeleteCategory
+10. currency_management_screen.dart:103 - DeleteCurrency
+11. customers_screen.dart:157 - DeleteCustomer
+12. layaway_screen.dart:245 - DeleteLayaway
+13. multi_store_screen.dart:338 - DeleteStore
+14. orders_screen.dart:230 - DeleteOrder
+15. pending_orders_screen.dart:167 - CompleteOrder
+16. pending_orders_screen.dart:247 - DeleteOrder
+17. products_screen.dart:256 - DeleteProduct
+18. refund_management_screen.dart:129 - DeleteRefund
+19. suppliers_screen.dart:97 - DeleteSupplier
+20. tax_management_screen.dart:102 - DeleteTaxRate
+21. users_screen.dart:75 - DeleteUser
+22. permissions_screen.dart:215 - BulkAction
+```
+
+## Form Dialogs with Known Fields
+
+### ConfigureGateway (payment_gateway_screen.dart:490)
+- api_key (required, TextFormField, obscured)
+- api_secret (required, TextFormField, obscured)
+- webhook_secret (optional, TextFormField, obscured)
+- is_active (toggle, SwitchListTile)
+- is_test_mode (toggle, SwitchListTile)
+
+### ProcessRefund (payment_gateway_screen.dart:706)
+- refund_amount (required, numeric, with max validation)
+- reason (required, multi-line text)
+
+### UpdatePrice (price_management_screen.dart:726)
+- selling_price (required, numeric)
+- Displays cost_price and margin calculations
+
+### AddCategory/EditCategory (categories_screen.dart:116)
+- name (required, TextFormField)
+- description (optional, multi-line TextFormField)
+
+### CheckGiftCardBalance (gift_cards_screen.dart:61)
+- card_number (required, single TextField)
+
+### ServerURL (mobile_home_screen.dart:154)
+- API_URL (required, TextField with helper text)
+
+## External Widget Dialogs (Need Inspection)
+- CustomerFormDialog (customers_screen.dart:144)
+- _CurrencyDialog (currency_management_screen.dart:70)
+- UserDialog (users_screen.dart:106)
+- _IssueGiftCardDialog (gift_cards_screen.dart:49)
+- _CreateLayawayDialog (layaway_screen.dart:71)
+- _LayawayDetailDialog (layaway_screen.dart:59)
+- _ProgramDialog (loyalty_program_screen.dart:177)
+- _AddPointsDialog (loyalty_program_screen.dart:190)
+- _StoreDialog (multi_store_screen.dart:298)
+- _InventoryDialog (multi_store_screen.dart:312)
+- _TransferDialog (multi_store_screen.dart:327)
+- _RefundDialog (refund_management_screen.dart:104/116)
+- _StockAdjustmentDialog (stock_management_screen.dart:91)
+- _SupplierDialog (suppliers_screen.dart:84)
+- _TaxRateDialog (tax_management_screen.dart:142)
+- _OrderDetailsDialog (orders_screen.dart:324, pending_orders_screen.dart:232)
+
+## Screens Without Dialogs
+- home_screen.dart (navigation hub)
+
+## Recommended Conversion Order
+
+**Immediate (Financial Impact):**
+1. ConfigureGateway - security sensitive
+2. ProcessRefund (both instances) - financial operations
+3. UpdatePrice - frequent use
+
+**High Value:**
+4. Categories & Suppliers (core data)
+5. Multi-store dialogs (complex operations)
+6. Customer/User dialogs (frequent operations)
+
+**Medium Value:**
+7. Loyalty & Layaway dialogs
+8. Tax/Currency management
+
+**Lower Value:**
+9. Confirmation dialogs (convert to inline)
+10. Info dialogs (convert to pages/bottom sheets)

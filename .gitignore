@@ -1,0 +1,52 @@
+# Backend
+backend/vendor/
+backend/.env
+backend/backups/
+backend/uploads/
+
+# Frontend
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/build/
+frontend/android/.gradle/
+frontend/android/.kotlin/
+frontend/windows/flutter/
+
+# Database
+*.sql
+!backend/database/schema.sql
+!backend/database/test_data.sql
+
+# Uploads
+uploads/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+response.txt
+tmp_list.py
+
+# Windows specific
+*.bat
+*.ps1
+
+# phpMyAdmin exports
+localhost*
+*.html

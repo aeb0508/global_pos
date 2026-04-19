@@ -1,0 +1,13 @@
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Pass Authorization header
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Allow all PHP files to be accessed directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule \.php$ - [L]
+</IfModule>

@@ -1,0 +1,175 @@
+# UUID Migration Instructions
+
+## Overview
+This migration converts ALL integer IDs to UUIDs (char(36)) across your entire Global POS database.
+
+## What Gets Migrated
+All primary keys and foreign keys in these tables:
+- users, categories, suppliers, products, customers, stores
+- orders, order_items, payments, inventory_logs
+- tax_rates, audit_logs, loyalty_program, loyalty_customers
+- refunds, gift_cards, currencies, price_history, layaway
+- notification_logs, app_settings, store_inventory, store_transfers
+
+## Pre-Migration Steps
+
+### 1. BACKUP YOUR DATABASE
+```sql
+-- In phpMyAdmin or command line
+mysqldump -u root global_pos > backup_before_uuid_migration.sql
+```
+
+### 2. Verify Current State
+Check your current database structure in phpMyAdmin to see which tables have integer vs UUID IDs.
+
+## Running the Migration
+
+### Step 1: Access the Migration Script
+Open your browser and navigate to:
+```
+http://localhost/backend/database/migrate_to_uuid.php
+```
+
+### Step 2: Monitor Progress
+The script will display real-time progress:
+- [1/6] Dropping foreign key constraints
+- [2/6] Creating UUID mappings
+- [3/6] Adding temporary UUID columns
+- [4/6] Populating UUID values
+- [5/6] Replacing old columns with UUIDs
+- [6/6] Recreating foreign key constraints
+
+### Step 3: Wait for Completion
+The migration may take several minutes depending on data volume.
+DO NOT close the browser or refresh the page during migration.
+
+## What the Migration Does
+
+1. **Drops all foreign key constraints** - Temporarily removes relationships
+2. **Creates UUID mappings** - Generates new UUIDs for every existing integer ID
+3. **Adds temporary columns** - Creates *_uuid columns alongside existing ones
+4. **Populates UUIDs** - Copies mapped UUID values to temporary columns
+5. **Replaces columns** - Drops old integer columns, renames UUID columns
+6. **Recreates constraints** - Restores all foreign key relationships with UUIDs
+
+## Post-Migration Verification
+
+### 1. Check Table Structures
+In phpMyAdmin, verify that all ID columns are now `char(36)`:
+```sql
+SHOW COLUMNS FROM orders;
+SHOW COLUMNS FROM products;
+SHOW COLUMNS FROM users;
+```
+
+### 2. Verify Data Integrity
+```sql
+-- Check that all orders have valid UUIDs
+SELECT COUNT(*) FROM orders WHERE LENGTH(id) = 36;
+
+-- Check foreign key relationships
+SELECT o.id, o.user_id, u.id 
+FROM orders o 
+LEFT JOIN users u ON o.user_id = u.id 
+WHERE o.user_id IS NOT NULL 
+LIMIT 10;
+```
+
+### 3. Test Application
+- Login to the application
+- Create a new order
+- View existing orders
+- Create a new product
+- Test all CRUD operations
+
+## Code Changes Already Applied
+
+The following files have been updated to work with UUIDs:
+
+### Models:
+- ✅ backend/models/Order.php
+- ✅ backend/models/Product.php
+- ✅ backend/models/User.php
+- ✅ backend/models/Customer.php
+- ✅ backend/models/Category.php
+
+### APIs:
+- ✅ backend/api/orders.php
+- ✅ backend/api/customers.php
+
+### Utilities:
+- ✅ backend/utils/UUID.php (already existed)
+
+## Rollback Procedure
+
+If something goes wrong:
+
+### Option 1: Restore from Backup
+```bash
+mysql -u root global_pos < backup_before_uuid_migration.sql
+```
+
+### Option 2: Transaction Rollback
+The migration uses database transactions. If it fails, it automatically rolls back all changes.
+
+## Common Issues
+
+### Issue: "Foreign key constraint fails"
+**Solution**: The migration handles this by dropping all FKs first. If you see this error, ensure no other process is accessing the database.
+
+### Issue: "Duplicate entry"
+**Solution**: UUIDs are unique by design. This shouldn't happen, but if it does, re-run the migration.
+
+### Issue: "Column already exists"
+**Solution**: The migration may have partially completed. Restore from backup and try again.
+
+### Issue: "Out of memory"
+**Solution**: Increase PHP memory limit in php.ini:
+```ini
+memory_limit = 512M
+```
+
+## Performance Notes
+
+- Migration time depends on data volume
+- Estimated time: 1-5 minutes for typical datasets
+- UUID storage: 36 bytes vs 4 bytes for INT
+- Query performance: Minimal impact with proper indexing
+
+## Frontend Updates Required
+
+After migration, update your Flutter/Dart frontend to:
+1. Handle UUID strings instead of integers
+2. Update model classes to use String for ID fields
+3. Remove any integer parsing for IDs
+
+Example:
+```dart
+// Before
+class Product {
+  final int id;
+  // ...
+}
+
+// After
+class Product {
+  final String id;
+  // ...
+}
+```
+
+## Support
+
+If you encounter issues:
+1. Check the migration log output
+2. Verify database backup exists
+3. Check PHP error logs
+4. Ensure MySQL has sufficient permissions
+
+## Success Indicators
+
+✅ All tables show char(36) for ID columns
+✅ Foreign keys are recreated successfully
+✅ Application can create new records
+✅ Existing data is accessible
+✅ No PHP errors in logs

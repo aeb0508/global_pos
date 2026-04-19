@@ -1,0 +1,43 @@
+File,DialogName,Type,Location,FormFields,CurrentStructure,Level
+categories_screen.dart,AddCategory/EditCategory,form,Line 116,"name (required), description (optional)","AlertDialog with LayoutBuilder, Form validation, TextFormField inputs",1
+categories_screen.dart,DeleteCategory,confirmation,Line 240,"none","AlertDialog with confirmation buttons",2
+currency_management_screen.dart,AddCurrency/EditCurrency,form,Line 70,"TBD - _CurrencyDialog widget","showDialog with custom _CurrencyDialog widget",1
+currency_management_screen.dart,DeleteCurrency,confirmation,Line 103,"none","AlertDialog with confirmation buttons",2
+customers_screen.dart,AddCustomer/EditCustomer,form,Line 144,"TBD - CustomerFormDialog","showDialog with external CustomerFormDialog widget",1
+customers_screen.dart,DeleteCustomer,confirmation,Line 157,"none","AlertDialog with confirmation buttons",2
+gift_cards_screen.dart,IssueGiftCard,form,Line 49,"TBD - _IssueGiftCardDialog","showDialog with custom _IssueGiftCardDialog widget",1
+gift_cards_screen.dart,CheckGiftCardBalance,selection,Line 61,"card_number (required)","AlertDialog with TextField and API call on confirm",2
+gift_cards_screen.dart,GiftCardBalance Display,info,Line 90,"none - display only","AlertDialog showing card number and balance from API",3
+home_screen.dart,NONE - Navigation Hub,none,N/A,"none","Scaffold with navigation - no dialogs",0
+layaway_screen.dart,CreateLayaway,form,Line 71,"TBD - _CreateLayawayDialog","showDialog with custom _CreateLayawayDialog widget",1
+layaway_screen.dart,LayawayDetail,info,Line 59,"none - display only","showDialog with custom _LayawayDetailDialog widget",2
+layaway_screen.dart,DeleteLayaway,confirmation,Line 245,"none","AlertDialog returned from showDialog<bool>",2
+loyalty_program_screen.dart,EditLoyaltyProgram,form,Line 177,"TBD - _ProgramDialog","showDialog with custom _ProgramDialog widget",1
+loyalty_program_screen.dart,AddPoints,form,Line 190,"TBD - _AddPointsDialog","showDialog with custom _AddPointsDialog widget",1
+mobile_home_screen.dart,ServerURL Configuration,selection,Line 154,"API_URL (required)","AlertDialog with TextField and helper info box",2
+multi_store_screen.dart,AddStore/EditStore,form,Line 298,"TBD - _StoreDialog","showDialog with custom _StoreDialog widget",1
+multi_store_screen.dart,InventoryManagement,form,Line 312,"TBD - _InventoryDialog","showDialog with custom _InventoryDialog widget",1
+multi_store_screen.dart,StockTransfer,form,Line 327,"TBD - _TransferDialog","showDialog with custom _TransferDialog widget",1
+multi_store_screen.dart,DeleteStore,confirmation,Line 338,"none","AlertDialog returned from showDialog<bool>",2
+orders_screen.dart,DeleteOrder,confirmation,Line 230,"none","AlertDialog with confirmation buttons",2
+orders_screen.dart,OrderDetails,info,Line 324,"none - display only","showDialog with custom _OrderDetailsDialog widget",2
+payment_gateway_screen.dart,ConfigureGateway,form,Line 490,"api_key (required, obscured), api_secret (required, obscured), webhook_secret (optional, obscured), is_active (toggle), is_test_mode (toggle)","AlertDialog with Form, StatefulBuilder, SingleChildScrollView, SwitchListTile toggles",1
+payment_gateway_screen.dart,TestGateway,info,Line 615,"none - display only","AlertDialog with gateway status and test instructions",3
+payment_gateway_screen.dart,TransactionDetails,info,Line 650,"none - display only","AlertDialog with transaction details, optional Refund action button",2
+payment_gateway_screen.dart,ProcessRefund,form,Line 706,"refund_amount (required, numeric with validation), reason (required, multi-line)","AlertDialog with Form, StatefulBuilder for submission state, validation logic",1
+pending_orders_screen.dart,CompleteOrder,confirmation,Line 167,"none","AlertDialog returned from showDialog<bool>",2
+pending_orders_screen.dart,OrderDetails,info,Line 232,"none - display only","showDialog with custom _OrderDetailsDialog widget",2
+pending_orders_screen.dart,DeleteOrder,confirmation,Line 247,"none","AlertDialog returned from showDialog<bool>",2
+permissions_screen.dart,BulkAction,confirmation,Line 215,"none","AlertDialog with confirmation for bulk permission changes",2
+price_management_screen.dart,UpdatePrice,form,Line 726,"selling_price (required, numeric), displays cost calculation and margin","Dialog widget with _PriceUpdateDialog StatefulWidget, margin calculation display",1
+products_screen.dart,DeleteProduct,confirmation,Line 256,"none","AlertDialog returned from showDialog<bool>",2
+refund_management_screen.dart,ProcessRefund,form,Line 104,"TBD - _RefundDialog","showDialog with custom _RefundDialog widget",1
+refund_management_screen.dart,EditRefund,form,Line 116,"TBD - _RefundDialog (same widget as ProcessRefund)","showDialog with custom _RefundDialog widget",1
+refund_management_screen.dart,DeleteRefund,confirmation,Line 129,"none","AlertDialog returned from showDialog<bool>",2
+stock_management_screen.dart,AdjustStock,form,Line 91,"TBD - _StockAdjustmentDialog","showDialog with custom _StockAdjustmentDialog widget",1
+suppliers_screen.dart,AddSupplier/EditSupplier,form,Line 84,"TBD - _SupplierDialog","showDialog with custom _SupplierDialog widget",1
+suppliers_screen.dart,DeleteSupplier,confirmation,Line 97,"none","AlertDialog returned from showDialog<bool>",2
+tax_management_screen.dart,DeleteTaxRate,confirmation,Line 102,"none","AlertDialog returned from showDialog<bool>",2
+tax_management_screen.dart,AddTaxRate/EditTaxRate,form,Line 142,"TBD - _TaxRateDialog","showDialog with custom _TaxRateDialog widget",1
+users_screen.dart,DeleteUser,confirmation,Line 75,"none","AlertDialog returned from showDialog<bool>",2
+users_screen.dart,AddUser/EditUser,form,Line 106,"TBD - UserDialog","showDialog with external UserDialog widget",1

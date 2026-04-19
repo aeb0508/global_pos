@@ -1,0 +1,30 @@
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /backend/
+
+# Pass Authorization header
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Allow direct access to api folder
+RewriteCond %{REQUEST_URI} ^/backend/api/
+RewriteRule ^ - [L]
+
+# Allow direct access to existing files
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Allow direct access to existing directories
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+</IfModule>
+
+# PHP Settings for InfinityFree
+<IfModule mod_php.c>
+php_value upload_max_filesize 5M
+php_value post_max_size 5M
+php_value max_execution_time 300
+php_value max_input_time 300
+</IfModule>
