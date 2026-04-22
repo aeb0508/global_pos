@@ -7,12 +7,11 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy application
+# Copy application and entrypoint
 COPY . /var/www/html
 
-# Copy and set entrypoint
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Set entrypoint executable
+RUN chmod +x /var/www/html/entrypoint.sh
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
@@ -45,4 +44,4 @@ WORKDIR /var/www/html
 EXPOSE 80
 
 # Use entrypoint script
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/var/www/html/entrypoint.sh"]
