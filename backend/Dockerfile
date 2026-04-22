@@ -7,11 +7,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy application and entrypoint
+# Copy application
 COPY . /var/www/html
-
-# Set entrypoint executable
-RUN chmod +x /var/www/html/entrypoint.sh
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
@@ -43,5 +40,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Use entrypoint script
-ENTRYPOINT ["/var/www/html/entrypoint.sh"]
+# Start services with shell script
+CMD ["/bin/sh", "-c", "echo 'Starting PHP-FPM...' && php-fpm -D && echo 'PHP-FPM started' && echo 'Testing Nginx...' && nginx -t && echo 'Starting Nginx...' && exec nginx -g 'daemon off;'"]
