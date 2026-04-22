@@ -41,4 +41,4 @@ WORKDIR /var/www/html
 EXPOSE 80
 
 # Start services with shell script
-CMD ["/bin/sh", "-c", "echo 'Starting PHP-FPM...' && php-fpm -D && echo 'PHP-FPM started' && echo 'Testing Nginx...' && nginx -t && echo 'Starting Nginx...' && exec nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "php-fpm -D && echo 'PHP-FPM started' && exec nginx -g 'daemon off;'"]
