@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y \
 # Copy application
 COPY . /var/www/html
 
+# Copy and set entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
 
@@ -40,5 +44,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Start both services with explicit error handling
-CMD php-fpm -D && echo "PHP-FPM started" && nginx -t && echo "Nginx config OK" && nginx -g "daemon off;"
+# Use entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
