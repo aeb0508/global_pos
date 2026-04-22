@@ -1,18 +1,25 @@
-FROM php:8.1-cli
+FROM php:8.1-apache
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install MySQL extension
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Copy application
-COPY . /var/www/html
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
 
-# Set working directory
-WORKDIR /var/www/html
+# Copy application files
+COPY . /var/www/html/
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Configure Apache
+RUN echo '<Directory /var/www/html>\n\
+    Options Indexes FollowSymLinks\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>' > /etc/apache2/conf-available/app.conf \
+    && a2enconf app
 
 EXPOSE 80
 
-# Use PHP built-in server with router on Railway's PORT
-CMD php -S 0.0.0.0:${PORT:-80} -t /var/www/html /var/www/html/router.php
+CMD ["apache2-foreground"]
