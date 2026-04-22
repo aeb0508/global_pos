@@ -10,17 +10,24 @@ RUN apt-get update && apt-get install -y \
 # Copy application
 COPY . /var/www/html
 
+# Copy startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
 
 # Create Nginx configuration
 RUN echo 'server { \n\
     listen 80; \n\
+    server_name _; \n\
     root /var/www/html; \n\
     index index.php index.html; \n\
+    \n\
     location / { \n\
         try_files $uri $uri/ /index.php?$query_string; \n\
     } \n\
+    \n\
     location ~ \.php$ { \n\
         fastcgi_pass 127.0.0.1:9000; \n\
         fastcgi_index index.php; \n\
@@ -34,5 +41,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Start both PHP-FPM and Nginx
-CMD php-fpm -D && nginx -g 'daemon off;'
+# Use startup script
+CMD ["/start.sh"]
