@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install -y \
 # Copy application
 COPY . /var/www/html
 
-# Copy startup script
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
 
@@ -41,5 +37,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Use startup script
-CMD ["/start.sh"]
+# Start both services
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
