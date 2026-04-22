@@ -8,19 +8,17 @@ RUN apt-get update && apt-get install -y \
 # Enable mod_rewrite for .htaccess routing
 RUN a2enmod rewrite
 
-# Set Apache document root to /app/backend
-ENV APACHE_DOCUMENT_ROOT=/app/backend
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
 # Copy application
-COPY . /app
+COPY . /var/www/html
+
+# Configure Apache to allow .htaccess
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 # Set proper permissions
-RUN chown -R www-data:www-data /app
+RUN chown -R www-data:www-data /var/www/html
 
 # Set working directory
-WORKDIR /app
+WORKDIR /var/www/html
 
 EXPOSE 80
 
