@@ -5,9 +5,9 @@ class ApiConfig {
   // Development/Local URL (for testing)
   static const String _localUrl = 'http://localhost/backend/api';
 
-  // Production URL (Railway)
+  // Production URL (Railway) - UPDATE THIS WITH YOUR ACTUAL RAILWAY BACKEND URL
   static const String _productionUrl =
-      'https://your-railway-backend.up.railway.app/backend/api';
+      'https://your-railway-backend-url.up.railway.app/backend/api';
 
   // Overridable at runtime via Settings screen
   static String? _customBaseUrl;
