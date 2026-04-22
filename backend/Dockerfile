@@ -9,8 +9,10 @@ RUN apt-get update && apt-get install -y \
 # Enable mod_rewrite for .htaccess routing
 RUN a2enmod rewrite
 
-# Disable all MPM modules except mpm_prefork (default for php-apache)
-RUN a2dismod mpm_event mpm_worker || true
+# Fix MPM issue - Remove conflicting MPM modules completely
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.* \
+    && a2enmod mpm_prefork
 
 # Copy application
 COPY . /var/www/html
