@@ -1,20 +1,11 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "services": {
-    "backend": {
-      "root": "backend",
-      "build": {
-        "builder": "DOCKERFILE"
-      }
-    },
-    "frontend": {
-      "root": "frontend",
-      "build": {
-        "builder": "NIXPACKS"
-      }
-    },
-    "mysql": {
-      "image": "mysql:8.0"
-    }
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "backend/Dockerfile"
+  },
+  "deploy": {
+    "startCommand": "apache2-foreground",
+    "restartPolicyType": "ON_FAILURE"
   }
 }
