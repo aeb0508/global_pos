@@ -20,9 +20,6 @@ RUN ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled
 # Copy application
 COPY . /var/www/html
 
-# Copy custom Apache config
-COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
-
 # Configure Apache to allow .htaccess
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
