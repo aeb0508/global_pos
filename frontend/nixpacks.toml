@@ -1,0 +1,8 @@
+[build]
+cmds = ["flutter pub get", "flutter build web"]
+
+[[providers]]
+name = "flutter"
+
+[start]
+cmd = "serve -s build/web -l $PORT"
