@@ -1,8 +1,14 @@
-[build]
-cmds = ["flutter pub get", "flutter build web"]
+[providers]
+# Flutter needs Node.js for web
+nodejs = "18"
+flutter = "3.19"
 
-[[providers]]
-name = "flutter"
+[build]
+# Install dependencies and build web
+cmds = [
+  "flutter pub get",
+  "flutter build web --release"
+]
 
 [start]
-cmd = "serve -s build/web -l $PORT"
+cmd = "npm install -g serve && serve -s build/web -l $PORT"
