@@ -14,5 +14,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Use PHP built-in server on Railway's PORT (defaults to 80)
-CMD php -S 0.0.0.0:${PORT:-80} -t /var/www/html
+# Use PHP built-in server with router on Railway's PORT
+CMD php -S 0.0.0.0:${PORT:-80} -t /var/www/html /var/www/html/router.php
