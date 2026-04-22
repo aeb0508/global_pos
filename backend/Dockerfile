@@ -20,6 +20,9 @@ RUN echo 'server { \n\
     root /var/www/html; \n\
     index index.php index.html; \n\
     \n\
+    access_log /dev/stdout; \n\
+    error_log /dev/stderr; \n\
+    \n\
     location / { \n\
         try_files $uri $uri/ /index.php?$query_string; \n\
     } \n\
@@ -37,5 +40,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Start both services
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+# Start both services with explicit error handling
+CMD php-fpm -D && echo "PHP-FPM started" && nginx -t && echo "Nginx config OK" && nginx -g "daemon off;"
