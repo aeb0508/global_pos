@@ -29,6 +29,12 @@ class Config {
     public static function get($key, $default = null) {
         self::load();
 
+        // First, check if environment variable exists (for Railway/production)
+        $envValue = getenv($key);
+        if ($envValue !== false) {
+            return $envValue;
+        }
+
         // Support environment-specific database profiles.
         if (in_array($key, ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'], true)) {
             $env = strtolower(self::$config['DB_ENV'] ?? self::$config['APP_ENV'] ?? 'development');
