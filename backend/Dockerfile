@@ -13,9 +13,9 @@ COPY . /var/www/html
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Create Nginx configuration
+# Create Nginx configuration that uses Railway's PORT
 RUN echo 'server { \n\
-    listen 80; \n\
+    listen 80 default_server; \n\
     server_name _; \n\
     root /var/www/html; \n\
     index index.php index.html; \n\
@@ -40,5 +40,5 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 
-# Start services with shell script
-CMD ["/bin/sh", "-c", "php-fpm -D && echo 'PHP-FPM started' && exec nginx -g 'daemon off;'"]
+# Start services - ensure Nginx starts in foreground
+CMD php-fpm -D && sleep 2 && nginx -g 'daemon off;'
